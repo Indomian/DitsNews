@@ -18,6 +18,7 @@ $xpdo_meta_map['dnNewsletter']= array (
     'title' => '',
     'date' => 0,
     'message' => '',
+    'attachment' => '',
   ),
   'fieldMeta' => 
   array (
@@ -40,6 +41,14 @@ $xpdo_meta_map['dnNewsletter']= array (
     'message' => 
     array (
       'dbtype' => 'text',
+      'phptype' => 'string',
+      'null' => false,
+      'default' => '',
+    ),
+    'attachment' =>
+    array (
+      'dbtype' => 'varchar',
+      'precision' => '255',
       'phptype' => 'string',
       'null' => false,
       'default' => '',
