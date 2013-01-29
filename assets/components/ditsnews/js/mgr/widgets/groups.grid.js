@@ -101,7 +101,7 @@ Ditsnews.window.CreateGroup = function(config) {
                 ,width: 300
                 ,allowBlank: false
             },{
-                xtype: 'checkbox'
+                xtype: 'xcheckbox'
                 ,fieldLabel: _('ditsnews.groups.public')
                 ,name: 'public'
                 ,width: 300
@@ -133,7 +133,7 @@ Ditsnews.window.UpdateGroup = function(config) {
                 ,width: 300
                 ,allowBlank: false
             },{
-                xtype: 'checkbox'
+                xtype: 'xcheckbox'
                 ,fieldLabel: _('ditsnews.groups.public')
                 ,name: 'public'
                 ,width: 300
