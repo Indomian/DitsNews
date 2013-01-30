@@ -116,6 +116,7 @@ if($doc = $modx->getObject('modResource', $scriptProperties['document'])) {
 
 		// clear filename by clear alias algorithm from modResource
 		$options = array();
+		$iconv = function_exists('iconv');
         $charset = strtoupper((string) $modx->getOption('modx_charset', $options, 'UTF-8'));
         $delimiter = $modx->getOption('friendly_alias_word_delimiter', $options, '-');
 		$stripElementTags = (boolean) $modx->getOption('friendly_alias_strip_element_tags', $options, true);
