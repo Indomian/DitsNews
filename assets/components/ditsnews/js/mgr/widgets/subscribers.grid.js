@@ -76,6 +76,12 @@ Ditsnews.grid.Subscribers = function(config) {
             ,listeners: {
                 'select': {fn:this.filterByGroup,scope:this}
             }
+        },'-',{
+            text: _('ditsnews.subscribers.importcsv')
+            ,handler: this.exportSubscriber
+        },'-',{
+            text: _('ditsnews.subscribers.exportcsv')
+            ,handler: this.exportSubscriber
         }]
     });
     Ditsnews.grid.Subscribers.superclass.constructor.call(this,config)
@@ -163,7 +169,7 @@ Ext.extend(Ditsnews.grid.Subscribers,MODx.grid.Grid,{
                         if(groups.length > 0) {
                             Ext.each(groups, function(item, key) {
                                         Ext.getCmp('subscribergroups').add({
-                                            xtype: 'checkbox',
+                                            xtype: 'xcheckbox',
                                             name: 'groups_'+item.id,
                                             boxLabel: item.name,
                                             hideLabel: true,
@@ -177,6 +183,30 @@ Ext.extend(Ditsnews.grid.Subscribers,MODx.grid.Grid,{
                 }
             }
         });
+    }
+    ,importSubscriber: function(btn,e) {
+         if (!this.ImportSubscriberWindow) {
+            this.ImportSubscriberWindow = MODx.load({
+                xtype: 'ditsnews-window-subscriber-import'
+                ,listeners: {
+                    'success': {fn:this.refresh,scope:this}
+                }
+            });
+        }
+        this.getGroups(0, 'ditsnews-window-subscriber-import');
+        this.ImportSubscriberWindow.show(e.target);
+    }
+    ,exportSubscriber: function(btn,e) {
+         if (!this.ExportSubscriberWindow) {
+            this.ExportSubscriberWindow = MODx.load({
+                xtype: 'ditsnews-window-subscriber-export'
+                ,listeners: {
+                    'success': {fn:this.refresh,scope:this}
+                }
+            });
+        }
+        this.getGroups(0, 'ditsnews-window-subscriber-export');
+        this.ExportSubscriberWindow.show(e.target);
     }
 });
 Ext.reg('ditsnews-grid-subscribers',Ditsnews.grid.Subscribers);
@@ -216,7 +246,7 @@ Ditsnews.window.CreateSubscriber = function(config) {
                 ,width: 300
                 ,allowBlank: true
             },{
-                xtype: 'checkbox'
+                xtype: 'xcheckbox'
                 ,fieldLabel: _('ditsnews.subscribers.active')
                 ,name: 'active'
                 ,width: 300
@@ -272,7 +302,7 @@ Ditsnews.window.UpdateSubscriber = function(config) {
                 ,width: 300
                 ,allowBlank: true
             },{
-                xtype: 'checkbox'
+                xtype: 'xcheckbox'
                 ,fieldLabel: _('ditsnews.subscribers.active')
                 ,name: 'active'
                 ,width: 300
@@ -289,3 +319,47 @@ Ditsnews.window.UpdateSubscriber = function(config) {
 };
 Ext.extend(Ditsnews.window.UpdateSubscriber,MODx.Window);
 Ext.reg('ditsnews-window-subscriber-update',Ditsnews.window.UpdateSubscriber);
+
+Ditsnews.window.ExportSubscriber = function(config) {
+    config = config || {};
+    Ext.applyIf(config,{
+    	id: 'ditsnews-window-subscriber-export',
+        title: _('ditsnews.newsletters.export')
+        ,url: Ditsnews.config.connectorUrl
+        ,fileUpload: true
+        ,baseParams: {
+            action: 'mgr/subscribers/export'
+        }
+        ,fields: [
+            {
+                xtype: 'textfield'
+                ,fieldLabel: _('ditsnews.newsletters.subject')
+                ,name: 'title'
+                ,width: 300
+                ,allowBlank: false
+            },{
+                xtype: 'numberfield'
+                ,fieldLabel: _('ditsnews.newsletters.document')
+                ,name: 'document'
+                ,width: 300
+                ,allowBlank: false
+            },{
+                xtype: 'fieldset'
+                ,id: 'subscribergroups'
+                ,fieldLabel: _('ditsnews.newsletters.groups')
+                ,items: []
+            },{
+                xtype: 'textfield'
+                ,inputType: 'file'
+                ,id: 'newsletterattachment'
+                ,fieldLabel: _('ditsnews.newsletters.attachment')
+                ,name: 'attachment'
+                ,width: 300
+                ,allowBlank: true
+            }
+        ]
+    });
+    Ditsnews.window.ExportSubscriber.superclass.constructor.call(this,config);
+};
+Ext.extend(Ditsnews.window.ExportSubscriber,MODx.Window);
+Ext.reg('ditsnews-window-subscriber-export',Ditsnews.window.ExportSubscriber);

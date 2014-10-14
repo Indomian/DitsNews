@@ -6,6 +6,7 @@
         <field key="title" dbtype="varchar" precision="255" phptype="string" null="false" default="" />
         <field key="date" dbtype="int" precision="20" phptype="timestamp" null="false" default="" />
         <field key="message" dbtype="text" phptype="string" null="false" default="" />
+        <field key="attachment" dbtype="varchar" precision="255" phptype="string" null="false" default="" />
     </object>
 
     <object class="dnSettings" table="ditsnews_settings" extends="xPDOSimpleObject">
